@@ -4,7 +4,7 @@ import numpy as np
 from statsmodels.tsa.arima.model import ARIMA
 import matplotlib.pyplot as plt
 from utils.shocks import apply_rate_shocks
-
+from utils.preprocessing import clean_rate_data
 st.title("📈 Interest Rate Forecasting & Yield Curve Shock Simulator")
 st.write("Upload a CSV with columns: date, rate")
 
