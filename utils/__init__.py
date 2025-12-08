@@ -1,2 +1,2 @@
 from .shocks import apply_rate_shocks
-from .preprocessing import preprocess_data
+from .preprocessing import clean_rate_data
