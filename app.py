@@ -14,7 +14,7 @@ from utils.shocks import apply_rate_shocks # Assuming this function exists and w
 st.set_page_config(page_title="Interest Rate Forecasting", layout="wide")
 
 # --------------------------------------------------------
-# CSS Styling (Refined for Cohesion and Readability)
+# CSS Styling (Final Refinement)
 # --------------------------------------------------------
 st.markdown(
     """
@@ -85,24 +85,26 @@ st.markdown(
         }
 
         /* File uploader label and text */
+        /* Browse Files Text/Label -> BLACK */
         label[data-testid="stFileUploadDropzone"] {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #FFFFFF !important; /* Browse files link and main label (White) */
+            color: #000000 !important; /* BROWSE FILES TEXT IS BLACK */
         }
         
-        /* Dropzone area background/border */
+        /* Dropzone area background/border -> Bright Yellow */
         div[data-testid="stFileUploaderDropzone"] {
-            background-color: #212121 !important; /* Very dark background for the zone */
-            border: 2px dashed #00bcd4 !important; /* Cyan dashed border */
+            background-color: #ffffb3 !important; /* Bright Yellow/Cream background for black text */
+            border: 2px dashed #00bcd4 !important;
             border-radius: 10px;
             padding: 20px;
         }
         
-        /* Uploaded File Name Text Color */
+        /* Uploaded File Name Text Color -> WHITE */
         div[data-testid="stFileUploader"] p {
-            color: #FFFFFF !important; /* Ensure the filename itself is white */
+            color: #FFFFFF !important; /* UPLOADED FILE NAME IS WHITE */
             font-weight: 500;
+            background-color: transparent !important; /* Ensure no background interference */
         }
         
         /* Selectbox/Input styling for dark mode */
@@ -128,27 +130,27 @@ st.markdown(
 )
 
 # --------------------------------------------------------
-# Header
+# Header (The 2 blocks you see in the screenshot)
 # --------------------------------------------------------
-# This is the title and subtitle, NOT the block you saw.
 st.markdown("<div class='title'>💰 Rate Curve Modeler</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>A financial tool for Interest Rate Forecasting and Stress Testing</div>", unsafe_allow_html=True)
 
 # --------------------------------------------------------
 # Main App Structure - Starts Immediately after Header/Subtitle
+# The unnecessary containers/blocks have been removed here.
 # --------------------------------------------------------
 
-# Section 1: File Upload and Configuration
-# This container now directly follows the subtitle.
+# Section 1: File Upload and Configuration (This is the first functional block)
 with st.container():
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.subheader("⚙️ Data Input & Configuration")
     
     col_upload, col_space = st.columns([2, 1])
     with col_upload:
+        # Note: The 'uploaded' variable here holds the file object.
         uploaded = st.file_uploader("Upload Historical Interest Rate Data (CSV with 'date' and 'rate' columns)", type=["csv"])
     
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True) # End of the first 'card'
 
 # --------------------------------------------------------
 # Forecasting Logic and Results
@@ -170,6 +172,7 @@ if uploaded:
         col_hist, col_forecast = st.columns(2)
         
         # ---------------- Raw Data ----------------
+        # Starts the second 'card'
         with col_hist:
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("📈 Historical Rate Curve")
@@ -177,6 +180,7 @@ if uploaded:
             st.markdown("</div>", unsafe_allow_html=True)
 
         # ---------------- Forecast ----------------
+        # Starts the third 'card'
         with col_forecast:
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("🔮 ARIMA Forecast (30 days)")
@@ -193,6 +197,7 @@ if uploaded:
         
         
         # ---------------- Shock Scenarios (Full Width Section) ----------------
+        # Starts the fourth 'card'
         with st.container():
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("⚡ Stress Testing Scenarios")
@@ -220,6 +225,6 @@ if uploaded:
                 if shocked_data is not None:
                     st.line_chart(shocked_data, height=300, use_container_width=True)
                 
-            st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True) # End of the fourth 'card'
 
         st.success("✅ Analysis Complete! Forecast generated and stress test results displayed.")
