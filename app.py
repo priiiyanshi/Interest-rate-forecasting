@@ -3,7 +3,7 @@ import pandas as pd
 
 from utils.preprocessing import clean_rate_data
 from utils.shocks import apply_rate_shocks
-from arima_model import forecast_rates
+from models.arima_model import forecast_rates
 
 # --------------------------------------------------------
 # CUSTOM UI THEME (Glassmorphism + Responsive Design)
