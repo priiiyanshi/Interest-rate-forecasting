@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 from sklearn.preprocessing import MinMaxScaler
-from utils.shocks import apply_rate_shocks # Assuming this function exists and works
+from utils.shocks import apply_rate_shocks 
 
 # --------------------------------------------------------
 # Page Config
@@ -14,16 +14,15 @@ from utils.shocks import apply_rate_shocks # Assuming this function exists and w
 st.set_page_config(page_title="Interest Rate Forecasting", layout="wide")
 
 # --------------------------------------------------------
-# CSS Styling (Final Refinement)
+# CSS Styling (Final, Targeted Fix)
 # --------------------------------------------------------
 st.markdown(
     """
     <style>
         /* --- General Colors --- */
-        /* Deep Charcoal/Navy Background */
         .stApp {
             background: linear-gradient(145deg, #121212, #1e2630); 
-            color: #f0f0f0; /* Default text color (Light Gray) */
+            color: #f0f0f0; 
         }
 
         /* Main content area padding */
@@ -37,30 +36,30 @@ st.markdown(
             font-weight: 800;
             text-align: center;
             margin-bottom: 5px;
-            color: #00bcd4; /* Bright Cyan/Aqua for Title */
+            color: #00bcd4; 
             letter-spacing: 1px;
         }
 
         .subtitle {
             text-align: center;
-            color: #bdbdbd; /* Soft Gray for Subtitle */
+            color: #bdbdbd; 
             font-size: 1.2rem;
             margin-bottom: 40px;
         }
 
         /* --- Card Styling (Containers) --- */
         .card {
-            background: rgba(255, 255, 255, 0.08); /* Darker, slightly transparent card background */
+            background: rgba(255, 255, 255, 0.08); 
             padding: 30px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.15); /* More visible border */
+            border: 1px solid rgba(255, 255, 255, 0.15); 
             margin-bottom: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         /* Streamlit Subheaders in cards */
         h3 {
-            color: #ff9800; /* Bright Orange/Amber for section headers */
+            color: #ff9800; 
             font-weight: 600;
             margin-bottom: 20px;
             border-bottom: 2px solid rgba(255, 152, 0, 0.3);
@@ -74,7 +73,7 @@ st.markdown(
             width: 100%;
             border-radius: 8px;
             font-size: 1.1rem;
-            background-color: #00bcd4; /* Primary button color (Cyan) */
+            background-color: #00bcd4; 
             color: #121212;
             font-weight: 700;
             transition: all 0.3s ease;
@@ -82,14 +81,6 @@ st.markdown(
         .stButton button:hover {
             background-color: #4dd0e1;
             color: #000000;
-        }
-
-        /* File uploader label and text */
-        /* Browse Files Text/Label -> BLACK */
-        label[data-testid="stFileUploadDropzone"] {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #000000 !important; /* BROWSE FILES TEXT IS BLACK */
         }
         
         /* Dropzone area background/border -> Bright Yellow */
@@ -99,12 +90,27 @@ st.markdown(
             border-radius: 10px;
             padding: 20px;
         }
+
+        /* File uploader label and text */
+        /* BROWSE FILES TEXT/LABEL -> BLACK */
+        label[data-testid="stFileUploadDropzone"] {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #000000 !important; /* Main Label Text */
+        }
         
+        /* TARGETING THE SPECIFIC 'BROWSE FILES' LINK INSIDE THE DROPZONE: BLACK */
+        div[data-testid="stFileUploaderDropzone"] a {
+            color: #000000 !important; /* Forces the clickable link to black */
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
         /* Uploaded File Name Text Color -> WHITE */
         div[data-testid="stFileUploader"] p {
             color: #FFFFFF !important; /* UPLOADED FILE NAME IS WHITE */
             font-weight: 500;
-            background-color: transparent !important; /* Ensure no background interference */
+            background-color: transparent !important; 
         }
         
         /* Selectbox/Input styling for dark mode */
@@ -130,27 +136,25 @@ st.markdown(
 )
 
 # --------------------------------------------------------
-# Header (The 2 blocks you see in the screenshot)
+# Header
 # --------------------------------------------------------
 st.markdown("<div class='title'>💰 Rate Curve Modeler</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>A financial tool for Interest Rate Forecasting and Stress Testing</div>", unsafe_allow_html=True)
 
 # --------------------------------------------------------
-# Main App Structure - Starts Immediately after Header/Subtitle
-# The unnecessary containers/blocks have been removed here.
+# Main App Structure 
 # --------------------------------------------------------
 
-# Section 1: File Upload and Configuration (This is the first functional block)
+# Section 1: File Upload and Configuration
 with st.container():
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.subheader("⚙️ Data Input & Configuration")
     
     col_upload, col_space = st.columns([2, 1])
     with col_upload:
-        # Note: The 'uploaded' variable here holds the file object.
         uploaded = st.file_uploader("Upload Historical Interest Rate Data (CSV with 'date' and 'rate' columns)", type=["csv"])
     
-    st.markdown("</div>", unsafe_allow_html=True) # End of the first 'card'
+    st.markdown("</div>", unsafe_allow_html=True) 
 
 # --------------------------------------------------------
 # Forecasting Logic and Results
@@ -172,7 +176,6 @@ if uploaded:
         col_hist, col_forecast = st.columns(2)
         
         # ---------------- Raw Data ----------------
-        # Starts the second 'card'
         with col_hist:
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("📈 Historical Rate Curve")
@@ -180,7 +183,6 @@ if uploaded:
             st.markdown("</div>", unsafe_allow_html=True)
 
         # ---------------- Forecast ----------------
-        # Starts the third 'card'
         with col_forecast:
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("🔮 ARIMA Forecast (30 days)")
@@ -197,7 +199,6 @@ if uploaded:
         
         
         # ---------------- Shock Scenarios (Full Width Section) ----------------
-        # Starts the fourth 'card'
         with st.container():
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("⚡ Stress Testing Scenarios")
@@ -225,6 +226,6 @@ if uploaded:
                 if shocked_data is not None:
                     st.line_chart(shocked_data, height=300, use_container_width=True)
                 
-            st.markdown("</div>", unsafe_allow_html=True) # End of the fourth 'card'
+            st.markdown("</div>", unsafe_allow_html=True) 
 
         st.success("✅ Analysis Complete! Forecast generated and stress test results displayed.")
