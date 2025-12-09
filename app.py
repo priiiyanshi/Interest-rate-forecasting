@@ -8,7 +8,7 @@ from tensorflow.keras.layers import LSTM, Dense
 from sklearn.preprocessing import MinMaxScaler
 from utils.shocks import apply_rate_shocks
 
-st.title("📈 Interest Rate Forecasting & Yield Curve Shock Simulator")
+st.title("Interest Rate Forecasting & Yield Curve Shock Simulator")
 
 uploaded = st.file_uploader("Upload interest rate time-series CSV", type=["csv"])
 
