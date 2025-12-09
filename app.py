@@ -1,9 +1,14 @@
+import sys, os
+root = os.path.dirname(os.path.abspath(__file__))
+if root not in sys.path:
+    sys.path.insert(0, root)
+from model.arima_model import forecast_rates
+
 import streamlit as st
 import pandas as pd
 
 from utils.preprocessing import clean_rate_data
 from utils.shocks import apply_rate_shocks
-from model.arima_model import forecast_rates
 
 # --------------------------------------------------------
 # CUSTOM UI THEME (Glassmorphism + Responsive Design)
