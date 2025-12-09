@@ -14,16 +14,16 @@ from utils.shocks import apply_rate_shocks # Assuming this function exists and w
 st.set_page_config(page_title="Interest Rate Forecasting", layout="wide")
 
 # --------------------------------------------------------
-# CSS Styling (Enhanced for Dark Theme and Readability)
+# CSS Styling (Refined for Cohesion and Readability)
 # --------------------------------------------------------
 st.markdown(
     """
     <style>
-        /* Base Streamlit App container */
+        /* --- General Colors --- */
+        /* Deep Charcoal/Navy Background */
         .stApp {
-            /* Deep, dark blue gradient for background */
-            background: linear-gradient(145deg, #0f1c2b, #1a2a3a);
-            color: #e0e0e0; /* Light text for readability */
+            background: linear-gradient(145deg, #121212, #1e2630); 
+            color: #f0f0f0; /* Default text color (Light Gray) */
         }
 
         /* Main content area padding */
@@ -31,71 +31,86 @@ st.markdown(
             padding: 2rem 5rem;
         }
 
-        /* Titles and Headers */
+        /* --- Header Styling --- */
         .title {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 800;
             text-align: center;
             margin-bottom: 5px;
-            color: #58a6ff; /* A striking but professional blue for main title */
+            color: #00bcd4; /* Bright Cyan/Aqua for Title */
             letter-spacing: 1px;
         }
 
         .subtitle {
             text-align: center;
-            color: #90a4ae;
-            font-size: 1.3rem;
+            color: #bdbdbd; /* Soft Gray for Subtitle */
+            font-size: 1.2rem;
             margin-bottom: 40px;
         }
 
-        /* Card styling (Sections) */
+        /* --- Card Styling (Containers) --- */
         .card {
-            background: rgba(255, 255, 255, 0.05); /* Slightly transparent dark background */
+            background: rgba(255, 255, 255, 0.08); /* Darker, slightly transparent card background */
             padding: 30px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-            backdrop-filter: blur(5px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15); /* More visible border */
             margin-bottom: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
         /* Streamlit Subheaders in cards */
         h3 {
-            color: #fdd835; /* Gold/Yellow for section headers */
+            color: #ff9800; /* Bright Orange/Amber for section headers */
             font-weight: 600;
             margin-bottom: 20px;
-            border-bottom: 2px solid rgba(253, 216, 53, 0.3); /* Subtle separator */
+            border-bottom: 2px solid rgba(255, 152, 0, 0.3);
             padding-bottom: 5px;
         }
 
+        /* --- Component Styling --- */
+        
         /* Full-width buttons */
         .stButton button {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 1.1rem;
-            background-color: #58a6ff; /* Primary button color */
-            color: #0f1c2b;
+            background-color: #00bcd4; /* Primary button color (Cyan) */
+            color: #121212;
             font-weight: 700;
             transition: all 0.3s ease;
         }
         .stButton button:hover {
-            background-color: #79c0ff;
+            background-color: #4dd0e1;
             color: #000000;
         }
 
-        /* File uploader label */
+        /* File uploader label and text */
         label[data-testid="stFileUploadDropzone"] {
             font-size: 1.1rem;
+            font-weight: 600;
+            color: #FFFFFF !important; /* Browse files link and main label (White) */
+        }
+        
+        /* Dropzone area background/border */
+        div[data-testid="stFileUploaderDropzone"] {
+            background-color: #212121 !important; /* Very dark background for the zone */
+            border: 2px dashed #00bcd4 !important; /* Cyan dashed border */
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        /* Uploaded File Name Text Color */
+        div[data-testid="stFileUploader"] p {
+            color: #FFFFFF !important; /* Ensure the filename itself is white */
             font-weight: 500;
-            color: #e0e0e0;
         }
         
         /* Selectbox/Input styling for dark mode */
         div[data-baseweb="select"] > div, 
         div[data-baseweb="input"] > div {
-            background-color: #1a2a3a !important; 
-            border: 1px solid #37474f !important;
-            color: #e0e0e0 !important;
+            background-color: #212121 !important; 
+            border: 1px solid #424242 !important;
+            color: #f0f0f0 !important;
             border-radius: 8px;
         }
         
@@ -115,27 +130,24 @@ st.markdown(
 # --------------------------------------------------------
 # Header
 # --------------------------------------------------------
+# This is the title and subtitle, NOT the block you saw.
 st.markdown("<div class='title'>💰 Rate Curve Modeler</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>A financial tool for Interest Rate Forecasting and Stress Testing</div>", unsafe_allow_html=True)
 
 # --------------------------------------------------------
-# Main App Structure
+# Main App Structure - Starts Immediately after Header/Subtitle
 # --------------------------------------------------------
 
 # Section 1: File Upload and Configuration
+# This container now directly follows the subtitle.
 with st.container():
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.subheader("⚙️ Data Input & Configuration")
     
-    # Use a column to place the uploader
     col_upload, col_space = st.columns([2, 1])
     with col_upload:
         uploaded = st.file_uploader("Upload Historical Interest Rate Data (CSV with 'date' and 'rate' columns)", type=["csv"])
     
-    # Placeholder for configuration options if you add them later
-    # with col_space:
-    #     forecast_steps = st.number_input("Forecast Period (days):", min_value=1, value=30, step=1)
-
     st.markdown("</div>", unsafe_allow_html=True)
 
 # --------------------------------------------------------
@@ -161,7 +173,6 @@ if uploaded:
         with col_hist:
             st.markdown("<div class='card'>", unsafe_allow_html=True)
             st.subheader("📈 Historical Rate Curve")
-            # Set chart color for better dark mode visibility
             st.line_chart(df["rate"], height=300, use_container_width=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
@@ -189,25 +200,23 @@ if uploaded:
             shock_col1, shock_col2 = st.columns([1, 3])
             
             with shock_col1:
-                # Moved shock type selection into a column
                 shock_type = st.selectbox(
                     "Select Rate Shock Scenario (bps = basis points):", 
                     ["No Shock", "+50bps", "+100bps", "-50bps"],
-                    index=0 # Default to No Shock
+                    index=0 
                 )
             
             with shock_col2:
                 if shock_type == "No Shock":
                      st.info("Select a shock scenario on the left to apply it to the historical data.")
-                     shocked_data = df["rate"] # Display original data
+                     shocked_data = df["rate"] 
                 else:
                     try:
                         shocked_data = apply_rate_shocks(df["rate"], shock_type)
                     except Exception as e:
                         st.error(f"Error applying rate shocks: {e}")
-                        shocked_data = df["rate"] # Fallback to original data
+                        shocked_data = df["rate"] 
                         
-                # Ensure the chart is only displayed once the data is ready
                 if shocked_data is not None:
                     st.line_chart(shocked_data, height=300, use_container_width=True)
                 
